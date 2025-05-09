@@ -40,7 +40,7 @@ public final class ShowsMapper {
                                              imageURL: $0.image.medium,
                                              schedule: mapSchedule(with: $0.schedule.time ?? "", and: $0.schedule.days),
                                              genres: "\($0.genres.joined(separator: ", "))",
-                                             summary: $0.summary) }
+                                             summary: $0.summary.removeHTMLTags()) }
             return shows
         } catch {
             throw error
@@ -52,27 +52,3 @@ public final class ShowsMapper {
         return "Schedule: \(stringDays) at \(time)"
     }
 }
-
-//TODO: Organize better this code below
-
-enum Day: String, Codable {
-    case friday = "Friday"
-    case monday = "Monday"
-    case saturday = "Saturday"
-    case sunday = "Sunday"
-    case thursday = "Thursday"
-    case tuesday = "Tuesday"
-    case wednesday = "Wednesday"
-}
-extension HTTPURLResponse {
-    private static var OK_200: Int { return 200 }
-    
-    var isOK: Bool {
-        return statusCode == HTTPURLResponse.OK_200
-    }
-}
-
-public enum MapperError: Error {
-    case unsuccessfullyResponse
-}
-

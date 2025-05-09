@@ -18,7 +18,7 @@ struct ShowDetailView: View {
             HStack(spacing:16) {
                 ImageView(url: show.imageURL)
                 
-                Text(show.summary.removeHTMLTags())
+                Text(show.summary)
                     .font(.footnote)
                     .lineLimit(12)
             }
@@ -65,18 +65,4 @@ struct ShowDetailView: View {
 //            }
 //        }
     }
-}
-
-extension String {
-    
-    func removeHTMLTags() -> String {
-        
-        return self.replacingOccurrences(of: "<p>", with: "")
-            .replacingOccurrences(of: "<b>", with: "")
-            .replacingOccurrences(of: "<i>", with: "")
-            .replacingOccurrences(of: "</p>", with: "")
-            .replacingOccurrences(of: "</b>", with: "")
-            .replacingOccurrences(of: "</i>", with: "")
-    }
-    
 }
