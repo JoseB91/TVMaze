@@ -19,15 +19,7 @@ final class ShowsViewModel: ObservableObject {
     init(showsLoader: @escaping () async throws -> [Show]) {
         self.showsLoader = showsLoader
     }
-    
-    var filteredShows: [Show] {
-        if searchText.isEmpty {
-            return shows
-        } else {
-            return shows.filter { $0.name.localizedCaseInsensitiveContains(searchText) }
-        }
-    }
-    
+        
     @MainActor
     func loadShows() async {
         isLoading = true

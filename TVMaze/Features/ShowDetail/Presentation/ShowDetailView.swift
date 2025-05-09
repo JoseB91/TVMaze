@@ -15,12 +15,10 @@ struct ShowDetailView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 24) {
-            HStack(spacing:16) {
+            HStack(alignment: .top, spacing:16) {
                 ImageView(url: show.imageURL)
-                
                 Text(show.summary)
                     .font(.footnote)
-                    .lineLimit(12)
             }
             Text(show.genres)
                 .font(.body)
@@ -28,6 +26,7 @@ struct ShowDetailView: View {
             Text(show.schedule)
                 .font(.body)
         }
+        .padding(16)
         VStack{
             ZStack {
                 if showDetailViewModel.isLoading {
@@ -40,8 +39,13 @@ struct ShowDetailView: View {
                             ForEach(1...lastSeason, id: \.self) { seasonNumber in
                                 Section(header: Text("Season \(seasonNumber)")) {
                                     ForEach(showDetailViewModel.episodes.filter { $0.season == seasonNumber }) { episode in
-                                        Text(episode.name)
-                                            .font(.body)
+                                        Button {
+                                            navigationPath.append(episode)
+                                        } label: {
+                                            Text(episode.name)
+                                                .font(.body)
+                                        }
+                                        .buttonStyle(PlainButtonStyle())
                                     }
                                 }
                             }

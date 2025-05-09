@@ -21,7 +21,6 @@ public final class ShowsMapper {
             let medium, original: URL
         }
         
-        // MARK: - Schedule
         struct Schedule: Decodable {
             let time: String?
             let days: [Day]
@@ -49,6 +48,12 @@ public final class ShowsMapper {
     
     private static func mapSchedule(with time: String, and days: [Day]) -> String {
         let stringDays = days.map { $0.rawValue }.joined(separator: ", ")
-        return "Schedule: \(stringDays) at \(time)"
+        if stringDays == "Monday, Tuesday, Wednesday, Thursday, Friday" {
+            return "Schedule: Weekdays at \(time)"
+        } else if stringDays == "Monday, Tuesday, Wednesday, Thursday" {
+            return "Schedule: Monday to Thursday at \(time)"
+        } else {
+            return "Schedule: \(stringDays)s at \(time)"
+        }
     }
 }

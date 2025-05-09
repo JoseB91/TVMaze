@@ -51,4 +51,30 @@ class Composer {
         
         return ShowDetailViewModel(episodesLoader: episodesLoader)
     }
+    
+    func composePeopleViewModel() -> PeopleViewModel {
+        let peopleLoader: () async throws -> [Person] = { [baseURL, httpClient] in
+            
+            let url = PeopleEndpoint.getPeople(page: 0).url(baseURL: baseURL)
+            let (data, response) = try await httpClient.get(from: url)
+            let people = try PeopleMapper.map(data, from: response)
+
+            return people
+        }
+        
+        return PeopleViewModel(peopleLoader: peopleLoader)
+    }
+    
+    func composePersonDetailViewModel(for person: Person) -> PersonDetailViewModel {
+        let personShowsLoader: () async throws -> [PersonShow] = { [baseURL, httpClient] in
+            
+            let url = PersonShowsEndpoint.getPersonShows(personId: person.id).url(baseURL: baseURL)
+            let (data, response) = try await httpClient.get(from: url)
+            let personShows = try PersonShowsMapper.map(data, from: response)
+
+            return personShows
+        }
+        
+        return PersonDetailViewModel(personShowsLoader: personShowsLoader)
+    }
 }

@@ -47,7 +47,7 @@ struct ShowsView: View {
         .task {
             await showsViewModel.loadShows()
         }
-        .navigationTitle("TV Shows")
+        .navigationTitle("Shows")
         .alert(item: $showsViewModel.errorMessage) { error in
             Alert(
                 title: Text("Error"),
