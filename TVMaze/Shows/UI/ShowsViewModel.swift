@@ -13,7 +13,6 @@ final class ShowsViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: ErrorModel? = nil
     @Published var searchText: String = ""
-
     
     private let showsLoader: () async throws -> [Show]
     
@@ -51,9 +50,9 @@ final class MockShowsViewModel {
         return [Show(id: 250,
                      name: "Kirby Buckets",
                      imageURL: URL(string: "https://static.tvmaze.com/uploads/images/medium_portrait/1/4600.jpg")!,
-                     schedule: "Schedule: Monday at 10:00 PM",
-                     genres: "Comedy, Drama",
-                     summary: "The single-camera series that mixes live-action and animation stars Jacob Bertrand as the title character. <b>Kirby Bucke…, Kirby is joined by his animated characters, each with their own vibrant personality that only he and viewers can see.")]
+                     schedule: "Schedule: Monday, Tuesday, Wednesday, Thursday, Friday at 07:00",
+                     genres: "Comedy",
+                     summary: "The single-camera series that mixes live-action and animation stars Jacob Bertrand as the title character. Kirby Buckets introduces viewers to the vivid imagination of charismatic 13-year-old Kirby Buckets, who dreams of becoming a famous animator like his idol, Mac MacCallister. With his two best friends, Fish and Eli, by his side, Kirby navigates his eccentric town of Forest Hills where the trio usually find themselves trying to get out of a predicament before Kirby's sister, Dawn, and her best friend, Belinda, catch them. Along the way, Kirby is joined by his animated characters, each with their own vibrant personality that only he and viewers can see.")]
     }
 }
 
