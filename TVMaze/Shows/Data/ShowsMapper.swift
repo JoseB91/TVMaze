@@ -13,9 +13,18 @@ public final class ShowsMapper {
         let id: Int
         let name: String
         let image: ImageDecodable
-        
+        let genres: [String]
+        let summary: String
+        let schedule: Schedule
+
         struct ImageDecodable: Decodable {
             let medium, original: URL
+        }
+        
+        // MARK: - Schedule
+        struct Schedule: Decodable {
+            let time: String?
+            let days: [Day]
         }
     }
     
@@ -28,18 +37,36 @@ public final class ShowsMapper {
             let rootArray = try JSONDecoder().decode([Root].self, from: data)
             let shows = rootArray.map { Show(id: $0.id,
                                              name: $0.name,
-                                             imageURL: $0.image.medium) }
+                                             imageURL: $0.image.medium,
+                                             schedule: mapSchedule(with: $0.schedule.time ?? "", and: $0.schedule.days),
+                                             genres: "\($0.genres.joined(separator: ", "))",
+                                             summary: $0.summary) }
             return shows
         } catch {
             throw error
         }
     }
+    
+    private static func mapSchedule(with time: String, and days: [Day]) -> String {
+        let stringDays = days.map { $0.rawValue }.joined(separator: ", ")
+        return "Schedule: \(stringDays) at \(time)"
+    }
 }
 
 //TODO: Organize better this code below
+
+enum Day: String, Codable {
+    case friday = "Friday"
+    case monday = "Monday"
+    case saturday = "Saturday"
+    case sunday = "Sunday"
+    case thursday = "Thursday"
+    case tuesday = "Tuesday"
+    case wednesday = "Wednesday"
+}
 extension HTTPURLResponse {
     private static var OK_200: Int { return 200 }
-
+    
     var isOK: Bool {
         return statusCode == HTTPURLResponse.OK_200
     }

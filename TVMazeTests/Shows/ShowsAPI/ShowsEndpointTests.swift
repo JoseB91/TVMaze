@@ -10,7 +10,6 @@ import TVMaze
 
 class ShowsEndpointTests: XCTestCase {
 
-    //https://api.tvmaze.com/shows?page=1
     func test_shows_endpointURL() {
         // Arrange
         let baseURL = URL(string: "https://api.tvmaze.com/")!
