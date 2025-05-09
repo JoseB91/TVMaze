@@ -51,11 +51,9 @@ final class ShowsMapperTests: XCTestCase {
     
     // MARK: - Helpers
 
-    private func mockShow() -> Team {
+    private func mockShow() -> Show {
         Show(id: 250,
              name: "Kirby Buckets",
-             imageURL: URL(string: "https://static.tvmaze.com/uploads/images/original_untouched/1/4600.jpg")!)
+             imageURL: URL(string: "https://static.tvmaze.com/uploads/images/medium_portrait/1/4600.jpg")!)
     }
 }
-
-//git push -u origin main

@@ -5,6 +5,8 @@
 //  Created by José Briones on 8/5/25.
 //
 
+import Foundation
+
 public struct Show: Hashable, Identifiable {
     public let id: Int
     public let name: String

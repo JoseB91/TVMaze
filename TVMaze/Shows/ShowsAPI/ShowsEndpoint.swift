@@ -5,6 +5,8 @@
 //  Created by José Briones on 8/5/25.
 //
 
+import Foundation
+
 public enum ShowsEndpoint {
     case getShows(page: Int)
 

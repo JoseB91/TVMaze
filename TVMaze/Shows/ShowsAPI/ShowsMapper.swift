@@ -5,6 +5,8 @@
 //  Created by José Briones on 8/5/25.
 //
 
+import Foundation
+
 public final class ShowsMapper {
     
     private struct Root: Decodable {
@@ -12,7 +14,7 @@ public final class ShowsMapper {
         let name: String
         let image: ImageDecodable
         
-        private struct ImageDecodable: Decodable {
+        struct ImageDecodable: Decodable {
             let medium, original: URL
         }
     }
@@ -24,11 +26,10 @@ public final class ShowsMapper {
         
         do {
             let rootArray = try JSONDecoder().decode([Root].self, from: data)
-            return {
-                rootArray.map { Show(id: $0.id,
-                                 name: $0.name,
-                                 imageURL: $0.image.medium) }
-            }
+            let shows = rootArray.map { Show(id: $0.id,
+                                             name: $0.name,
+                                             imageURL: $0.image.medium) }
+            return shows
         } catch {
             throw error
         }
