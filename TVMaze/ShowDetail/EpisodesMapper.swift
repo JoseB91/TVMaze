@@ -33,7 +33,7 @@ public final class EpisodesMapper {
                                                 imageURL: $0.image.medium,
                                                 season: $0.season,
                                                 number: $0.number,
-                                                summary: $0.summary) }
+                                                summary: $0.summary.removeHTMLTags()) }
             return shows
         } catch {
             throw error
