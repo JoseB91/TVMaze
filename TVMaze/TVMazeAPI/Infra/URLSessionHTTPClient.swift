@@ -32,5 +32,4 @@ public final class URLSessionHTTPClient: HTTPClient {
     }
 }
 
-//https://api.tvmaze.com/shows?page=1
 // TODO: Add tests for this

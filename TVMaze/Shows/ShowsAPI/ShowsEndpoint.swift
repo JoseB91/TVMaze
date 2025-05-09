@@ -16,7 +16,7 @@ public enum ShowsEndpoint {
             var components = URLComponents()
             components.scheme = baseURL.scheme
             components.host = baseURL.host
-            components.path = baseURL.path + "/shows"
+            components.path = baseURL.path + "shows"
             components.queryItems = [
                 URLQueryItem(name: "page", value: "\(page)"),
             ].compactMap { $0 }
