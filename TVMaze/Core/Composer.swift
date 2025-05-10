@@ -7,33 +7,60 @@
 
 import Foundation
 import SwiftUI
+import CoreData
 
 class Composer {
     private let baseURL: URL
     private let httpClient: URLSessionHTTPClient
+    private let localShowsLoader: LocalShowsLoader
 
-    init(baseURL: URL, httpClient: URLSessionHTTPClient) {
+    init(baseURL: URL, httpClient: URLSessionHTTPClient, localShowsLoader: LocalShowsLoader) {
         self.baseURL = baseURL
         self.httpClient = httpClient
+        self.localShowsLoader = localShowsLoader
     }
     
     static func makeComposer() -> Composer {
         
         let baseURL = URL(string: "https://api.tvmaze.com/")!
         let httpClient = URLSessionHTTPClient(session: URLSession(configuration: .ephemeral))
+        let store = makeStore()
+        let localShowsLoader = LocalShowsLoader(store: store, currentDate: Date.init)
                 
-        return Composer(baseURL: baseURL,httpClient: httpClient)
+        return Composer(baseURL: baseURL,
+                        httpClient: httpClient,
+                        localShowsLoader: localShowsLoader)
     }
     
+    private static func makeStore() -> ShowsStore {
+        do {
+            return try CoreDataTVMazeStore(
+                storeURL: NSPersistentContainer
+                    .defaultDirectoryURL()
+                    .appendingPathComponent("tvmaze-store.sqlite"))
+        } catch {
+            return InMemoryStore()
+        }
+    }
 
     func composeShowsViewModel() -> ShowsViewModel {
-        let showsLoader: () async throws -> [Show] = { [baseURL, httpClient] in
+        let showsLoader: () async throws -> [Show] = { [baseURL, httpClient, localShowsLoader] in
             
-            let url = ShowsEndpoint.getShows(page: 0).url(baseURL: baseURL)
-            let (data, response) = try await httpClient.get(from: url)
-            let shows = try ShowsMapper.map(data, from: response)
+            do {
+                return try await localShowsLoader.load()
+            } catch {
+                let url = ShowsEndpoint.getShows(page: 0).url(baseURL: baseURL)
+                let (data, response) = try await httpClient.get(from: url)
+                let shows = try ShowsMapper.map(data, from: response)
 
-            return shows
+                do {
+                    try await localShowsLoader.save(shows)
+                } catch {
+                    print(error) //TODO: Delete this
+                }
+
+                return shows
+            }
         }
         
         return ShowsViewModel(showsLoader: showsLoader)
@@ -76,5 +103,17 @@ class Composer {
         }
         
         return PersonDetailViewModel(personShowsLoader: personShowsLoader)
+    }
+    
+    func composePersonShowViewModel(with url: URL) -> PersonShowViewModel {
+        let personShowLoader: () async throws -> Show = { [httpClient] in
+            
+            let (data, response) = try await httpClient.get(from: url)
+            let show = try PersonShowMapper.map(data, from: response)
+
+            return show
+        }
+        
+        return PersonShowViewModel(personShowLoader: personShowLoader)
     }
 }

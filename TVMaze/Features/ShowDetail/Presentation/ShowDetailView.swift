@@ -14,19 +14,7 @@ struct ShowDetailView: View {
     let show: Show
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 24) {
-            HStack(alignment: .top, spacing:16) {
-                ImageView(url: show.imageURL)
-                Text(show.summary)
-                    .font(.footnote)
-            }
-            Text(show.genres)
-                .font(.body)
-            Divider()
-            Text(show.schedule)
-                .font(.body)
-        }
-        .padding(16)
+        ShowView(show: show)
         VStack{
             ZStack {
                 if showDetailViewModel.isLoading {
@@ -68,5 +56,25 @@ struct ShowDetailView: View {
 //                }
 //            }
 //        }
+    }
+}
+
+struct ShowView: View {
+    let show: Show
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 24) {
+            HStack(alignment: .top, spacing:16) {
+                ImageView(url: show.imageURL)
+                Text(show.summary)
+                    .font(.footnote)
+            }
+            Text(show.genres)
+                .font(.body)
+            Divider()
+            Text(show.schedule)
+                .font(.body)
+        }
+        .padding(16)
     }
 }

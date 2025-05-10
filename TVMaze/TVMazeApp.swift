@@ -50,10 +50,9 @@ struct TVMazeApp: App {
                         PersonDetailView(personDetailViewModel: composer.composePersonDetailViewModel(for: person), navigationPath: $peopleNavigationPath,
                                          person: person)
                     }
-                    //                    .navigationDestination(for: Show.self) { show in
-                    //                        ShowDetailView(showDetailViewModel: composer.composeShowDetailViewModel(for: show),
-                    //                                      navigationPath: $showsNavigationPath,
-                    //                                      show: show)
+                    .navigationDestination(for: URL.self) { url in
+                        PersonShowView(personShowViewModel: composer.composePersonShowViewModel(with: url))
+                    }
                 }
                 .tabItem {
                     Label("People", systemImage: "person.fill")

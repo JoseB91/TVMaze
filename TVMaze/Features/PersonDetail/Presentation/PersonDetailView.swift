@@ -36,7 +36,12 @@ struct PersonDetailView: View {
                     List {
                         Section(header: Text("Shows")) {
                             ForEach(personDetailViewModel.personShows) { personShow in
-                                Text(personShow.name)
+                                Button {
+                                    navigationPath.append(personShow.showURL)
+                                } label: {
+                                    Text(personShow.name)
+                                }
+                                .buttonStyle(PlainButtonStyle())
                             }
                         }
                     }
@@ -48,6 +53,5 @@ struct PersonDetailView: View {
         .task {
             await personDetailViewModel.loadPersonShows()
         }
-        .padding(16)
     }
 }
