@@ -16,6 +16,7 @@ class ManagedShow: NSManagedObject {
     @NSManaged var schedule: String
     @NSManaged var genres: String
     @NSManaged var summary: String
+    @NSManaged var rating: String
     @NSManaged var cache: ManagedCache
 }
 
@@ -42,20 +43,21 @@ extension ManagedShow {
     }
     
     static func fetchShows(from localShows: [LocalShow], in context: NSManagedObjectContext) -> NSOrderedSet {
-        let shows = NSOrderedSet(array: localShows.map { local in
-            let managed = ManagedShow(context: context)
-            managed.id = Int16(local.id)
-            managed.name = local.name
-            managed.imageURL = local.imageURL
-            managed.schedule = local.schedule
-            managed.genres = local.genres
-            managed.schedule = local.schedule
+        let orderedSet = NSOrderedSet(array: localShows.map { local in
+            let managedShow = ManagedShow(context: context)
+            managedShow.id = Int16(local.id)
+            managedShow.name = local.name
+            managedShow.imageURL = local.imageURL
+            managedShow.schedule = local.schedule
+            managedShow.genres = local.genres
+            managedShow.schedule = local.schedule
+            managedShow.rating = local.rating
             if let cachedData = URLImageCache.shared.getImageData(for: local.imageURL) {
-                managed.data = cachedData
+                managedShow.data = cachedData
             }
-            return managed
+            return managedShow
         })
-        return shows
+        return orderedSet
     }
     
     static func find(with id: String, in context: NSManagedObjectContext) throws -> ManagedShow? {
@@ -72,6 +74,7 @@ extension ManagedShow {
                          imageURL: imageURL,
                          schedule: schedule,
                          genres: genres,
-                         summary: summary)
+                         summary: summary,
+                         rating: rating)
     }
 }

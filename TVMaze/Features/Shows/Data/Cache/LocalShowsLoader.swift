@@ -67,7 +67,8 @@ extension Array where Element == Show {
                                imageURL: $0.imageURL,
                                schedule: $0.schedule,
                                genres: $0.genres,
-                               summary: $0.summary)}
+                               summary: $0.summary,
+                               rating: $0.rating)}
     }
 }
 
@@ -78,7 +79,8 @@ private extension Array where Element == LocalShow {
                           imageURL: $0.imageURL,
                           schedule: $0.schedule,
                           genres: $0.genres,
-                          summary: $0.summary)
+                          summary: $0.summary,
+                          rating: $0.rating)
         }
     }
 }

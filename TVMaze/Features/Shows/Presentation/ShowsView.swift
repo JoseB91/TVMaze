@@ -60,10 +60,10 @@ struct ShowsView: View {
 
 struct ShowCardView: View {
     let show: Show
+    @State private var isFavorite = false
     
     var body: some View {
         VStack(alignment: .leading) {
-            
             ImageView(url: show.imageURL)
             
             Text(show.name)
@@ -71,9 +71,28 @@ struct ShowCardView: View {
                 .foregroundColor(.primary)
                 .lineLimit(1)
                 .padding(.init(top: 4, leading: 4, bottom: 4, trailing: 4))
+            
+            HStack(spacing: 16) {
+                Button(action: {
+                    isFavorite.toggle()
+                }) {
+                    Image(systemName: isFavorite ? "heart.fill" : "heart")
+                        .foregroundColor(isFavorite ? .red : .secondary)
+                }
+                
+                if show.rating != "" {
+                    HStack(spacing: 4) {
+                        Image(systemName: "star.fill")
+                            .foregroundColor(.secondary)
+                        Text(show.rating)
+                            .font(.callout)
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity)
         }
         .cornerRadius(8)
-        .shadow(radius: 2)
     }
 }
 

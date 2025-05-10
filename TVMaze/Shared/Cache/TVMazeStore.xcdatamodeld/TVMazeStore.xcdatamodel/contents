@@ -10,6 +10,7 @@
         <attribute name="id" attributeType="Integer 16" usesScalarValueType="YES"/>
         <attribute name="imageURL" attributeType="URI"/>
         <attribute name="name" attributeType="String"/>
+        <attribute name="rating" attributeType="String"/>
         <attribute name="schedule" optional="YES" attributeType="String"/>
         <attribute name="summary" optional="YES" attributeType="String"/>
         <relationship name="cache" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ManagedCache" inverseName="shows" inverseEntity="ManagedCache"/>

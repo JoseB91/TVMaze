@@ -15,15 +15,20 @@ public final class PersonShowMapper {
         let image: ImageDecodable
         let genres: [String]
         let summary: String
-        let schedule: Schedule
+        let schedule: ScheduleDecodable
+        let rating: RatingDecodable?
 
         struct ImageDecodable: Decodable {
             let medium, original: URL
         }
         
-        struct Schedule: Decodable {
+        struct ScheduleDecodable: Decodable {
             let time: String?
             let days: [Day]
+        }
+        
+        struct RatingDecodable: Decodable {
+            let average: Double?
         }
     }
     
@@ -39,7 +44,8 @@ public final class PersonShowMapper {
                             imageURL: root.image.medium,
                             schedule: mapSchedule(with: root.schedule.time ?? "", and: root.schedule.days),
                             genres: "\(root.genres.joined(separator: ", "))",
-                            summary: root.summary.removeHTMLTags())
+                            summary: root.summary.removeHTMLTags(),
+                            rating: getRatingString(from: root.rating?.average))
             return show
         } catch {
             throw error
@@ -55,5 +61,12 @@ public final class PersonShowMapper {
         } else {
             return "Schedule: \(stringDays)s at \(time)"
         }
+    }
+    
+    private static func getRatingString(from rating: Double?) -> String {
+        guard let rating = rating else {
+            return ""
+        }
+        return rating.toStringWithOneDecimal()
     }
 }
