@@ -16,13 +16,23 @@ struct ShowView: View {
                 ImageView(url: show.imageURL)
                 Text(show.summary)
                     .font(.footnote)
+                    .lineLimit(14)
             }
-            Text(show.genres)
-                .font(.body)
-            Divider()
-            Text(show.schedule)
-                .font(.body)
+            VStack(alignment: .leading, spacing: 8) { 
+                if !show.genres.isEmpty{
+                    Text("Genres: ").bold() + Text(show.genres)
+                        .font(.callout)
+                }
+                if !show.schedule.isEmpty {
+                    Text("Schedule: ").bold() + Text(show.schedule)
+                        .font(.callout)
+                }
+            }
         }
         .padding(16)
     }
+}
+
+#Preview {
+    ShowView(show: MockShowsViewModel.mockShow())
 }

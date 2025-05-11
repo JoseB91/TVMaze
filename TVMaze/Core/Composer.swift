@@ -109,7 +109,7 @@ class Composer {
         let personShowLoader: () async throws -> Show = { [httpClient] in
             
             let (data, response) = try await httpClient.get(from: url)
-            let show = try PersonShowMapper.map(data, from: response)
+            let show = try ShowsMapper.mapPersonShow(data, from: response)
 
             return show
         }

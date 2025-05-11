@@ -34,10 +34,14 @@ struct ShowDetailView: View {
                                                 .font(.body)
                                         }
                                         .buttonStyle(PlainButtonStyle())
+                                        .listRowSeparator(.hidden)
                                     }
                                 }
                             }
                         }
+                        .padding(0)
+                        .listRowSpacing(0)
+                        .listStyle(.plain)
                     }
                 }
             }

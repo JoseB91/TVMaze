@@ -16,7 +16,6 @@ struct TVMazeApp: App {
     }
     
     @State private var selectedTab = 0
-    @State private var searchText = ""
     @State private var showsNavigationPath = NavigationPath()
     @State private var peopleNavigationPath = NavigationPath()
     @State private var favoritesNavigationPath = NavigationPath()

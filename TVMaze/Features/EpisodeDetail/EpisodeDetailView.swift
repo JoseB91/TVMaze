@@ -13,31 +13,17 @@ struct EpisodeDetailView: View {
     
     var body: some View {
         ScrollView {
-            // Use a ViewModifier or a GenericView
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 24) {
                 ImageView(url: episode.imageURL)
                 VStack(alignment: .leading, spacing: 4) {
                     Text(episode.summary)
                         .font(.footnote)
                         .foregroundColor(.secondary)
                 }
-                .padding(.horizontal)
-                VStack(alignment: .leading, spacing: 8) {
-                    //                        Text("Episode Info")
-                    //                            .font(.title3)
-                    //                            .bold()
-                    Text("Season \(episode.season), Episode \(episode.number)")
-                    //                        Text("Airdate: Sunday May 11, 2025 at 21:00")
-                    //                        Text("Runtime: 60 minutes")
-                    //                        Divider()
-                    //                        Text("Writer: Craig Mazin")
-                    //                        Text("Director: Stephen Williams")
-                }
-                .padding(.horizontal)
             }
         }
         .padding(16)
-        .navigationTitle(episode.name)
+        .navigationTitle("S\(episode.season).E\(episode.number) · \(episode.name)")
     }
 }
 

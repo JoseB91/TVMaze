@@ -9,7 +9,14 @@ import Foundation
 
 final class PersonShowViewModel: ObservableObject {
     
-    @Published var show = Show(id: 0, name: "", imageURL: URL(string: "https://example.com/placeholder.jpg")!, schedule: "", genres: "", summary: "", rating: "", isFavorite: false)
+    @Published var show = Show(id: 0,
+                               name: "",
+                               imageURL: URL(string: "https://example.com/placeholder.jpg")!,
+                               schedule: "",
+                               genres: "",
+                               summary: "",
+                               rating: "",
+                               isFavorite: false)
     @Published var isLoading = false
     @Published var errorMessage: ErrorModel? = nil
     
@@ -31,15 +38,9 @@ final class PersonShowViewModel: ObservableObject {
     }
 }
 
-//final class MockEpisodesViewModel {
-//    static func mockEpisodesLoader() async throws -> [Episode] {
-//        //TODO: Add real data
-//        return [Episode(id: 1,
-//                        name: "",
-//                        imageURL: URL(string: "")!,
-//                        season: 1,
-//                        number: 1,
-//                        summary: "")]
-//    }
-//}
+final class MockPersonShowViewModel {
+    static func mockPersonShowLoader() async throws -> Show {
+        return MockShowsViewModel.mockShow()
+    }
+}
 
