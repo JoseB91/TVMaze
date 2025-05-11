@@ -10,7 +10,7 @@ import Foundation
 public final class LocalShowsLoader {
     private let store: ShowsStore
     private let currentDate: () -> Date
-        
+    
     public init(store: ShowsStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
@@ -58,8 +58,8 @@ extension LocalShowsLoader {
     public func validateCache() async throws {
         do {
             if let cache = try await store.retrieve(),
-                !CachePolicy.validate(cache.timestamp,
-                                      against: currentDate()) {
+               !CachePolicy.validate(cache.timestamp,
+                                     against: currentDate()) {
                 throw InvalidCache()
             }
         } catch {

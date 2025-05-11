@@ -47,15 +47,6 @@ struct ShowDetailView: View {
             await showDetailViewModel.loadEpisodes()
         }
         .padding(16)
-//        .toolbar {
-//            ToolbarItem(placement: .navigationBarTrailing) {
-//                Button(action: {
-//                    $show.isFavorite.wrappedValue?.toggle()
-//                }) {
-//                    $show.isFavorite.wrappedValue ?? false ? Image(systemName: Constants.starFillImage).foregroundColor(.yellow): Image(systemName: Constants.starImage).foregroundColor(.gray)
-//                }
-//            }
-//        }
     }
 }
 

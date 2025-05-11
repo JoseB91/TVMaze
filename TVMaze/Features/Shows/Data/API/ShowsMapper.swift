@@ -17,7 +17,7 @@ public final class ShowsMapper {
         let summary: String
         let schedule: ScheduleDecodable
         let rating: RatingDecodable
-
+        
         struct ImageDecodable: Decodable {
             let medium, original: URL
         }

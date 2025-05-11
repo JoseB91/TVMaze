@@ -8,7 +8,7 @@
 import Foundation
 
 public typealias CachedShows = (shows: [LocalShow], timestamp: Date)
-    
+
 public protocol ShowsStore {
     func deleteCache() async throws
     func insert(_ shows: [LocalShow], timestamp: Date) async throws
