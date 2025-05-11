@@ -9,7 +9,7 @@ import XCTest
 import TVMaze
 
 class PeopleEndpointTests: XCTestCase {
-
+    
     func test_people_endpointURL() {
         // Arrange
         let baseURL = URL(string: "https://api.tvmaze.com/")!

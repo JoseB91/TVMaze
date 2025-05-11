@@ -40,8 +40,6 @@ struct EpisodeDetailView: View {
     }
 }
 
-    
-
 
 //struct EpisodeDetailView_Previews: PreviewProvider {
 //    static var previews: some View {

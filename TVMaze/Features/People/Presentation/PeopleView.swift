@@ -89,7 +89,7 @@ struct PersonCardView: View {
 
 #Preview {
     let peopleViewModel = PeopleViewModel(peopleLoader: MockPeopleViewModel.mockPeopleLoader)
-
+    
     PeopleView(peopleViewModel: peopleViewModel,
-              navigationPath: .constant(NavigationPath()))
+               navigationPath: .constant(NavigationPath()))
 }

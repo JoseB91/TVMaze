@@ -9,7 +9,7 @@ import Foundation
 
 public enum PeopleEndpoint {
     case getPeople(page: Int)
-
+    
     public func url(baseURL: URL) -> URL {
         switch self {
         case let .getPeople(page):
