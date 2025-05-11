@@ -42,6 +42,14 @@ extension LocalShowsLoader {
             throw FailedLoad()
         }
     }
+    
+    public func saveFavorite(for showId: Int) async throws {
+        do {
+            try await store.insertFavorite(for: showId)
+        } catch {
+            print(error)
+        }
+    }
 }
 
 extension LocalShowsLoader {
@@ -68,7 +76,8 @@ extension Array where Element == Show {
                                schedule: $0.schedule,
                                genres: $0.genres,
                                summary: $0.summary,
-                               rating: $0.rating)}
+                               rating: $0.rating,
+                               isFavorite: $0.isFavorite)}
     }
 }
 
@@ -80,7 +89,8 @@ private extension Array where Element == LocalShow {
                           schedule: $0.schedule,
                           genres: $0.genres,
                           summary: $0.summary,
-                          rating: $0.rating)
+                          rating: $0.rating,
+                          isFavorite: $0.isFavorite)
         }
     }
 }

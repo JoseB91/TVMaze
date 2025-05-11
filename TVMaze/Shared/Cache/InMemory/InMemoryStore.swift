@@ -27,4 +27,7 @@ extension InMemoryStore: ShowsStore {
     public func retrieve() throws -> CachedShows? {
         showsCache
     }
+    
+    public func insertFavorite(for showId: Int) async throws {
+    }
 }

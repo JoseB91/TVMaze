@@ -10,20 +10,26 @@ import SwiftUI
 struct ShowsView: View {
     @ObservedObject var showsViewModel: ShowsViewModel
     @Binding var navigationPath: NavigationPath
-    
+    let isFavoriteView: Bool
+
     @State private var searchText = ""
     
     var shows: [Show] {
         if searchText.isEmpty {
-            return showsViewModel.shows
+            let favoriteShows = showsViewModel.shows.filter(\.self.isFavorite)
+            return isFavoriteView ? favoriteShows : showsViewModel.shows
         } else {
-            return showsViewModel.shows.filter { $0.name.contains(searchText) }
+            let filteredShows = showsViewModel.shows.filter { $0.name.contains(searchText) }
+            let favoriteFilteredShows = filteredShows.filter(\.self.isFavorite)
+            return isFavoriteView ? favoriteFilteredShows : filteredShows
         }
     }
     
     var body: some View {
         ZStack {
-            if showsViewModel.isLoading {
+            if isFavoriteView && showsViewModel.shows.filter(\.self.isFavorite).isEmpty {
+                Text("Your favorite shows will appear here")
+            } else if showsViewModel.isLoading {
                 ProgressView("Loading shows...")
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             } else {
@@ -33,7 +39,9 @@ struct ShowsView: View {
                             Button {
                                 navigationPath.append(show)
                             } label: {
-                                ShowCardView(show: show)
+                                ShowCardView(show: show,
+                                             showsViewModel: showsViewModel,
+                                             isFavoriteView: isFavoriteView)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
@@ -47,7 +55,7 @@ struct ShowsView: View {
         .task {
             await showsViewModel.loadShows()
         }
-        .navigationTitle("Shows")
+        .navigationTitle(isFavoriteView ? "Favorites" : "Shows")
         .alert(item: $showsViewModel.errorMessage) { error in
             Alert(
                 title: Text("Error"),
@@ -60,7 +68,8 @@ struct ShowsView: View {
 
 struct ShowCardView: View {
     let show: Show
-    @State private var isFavorite = false
+    @ObservedObject var showsViewModel: ShowsViewModel
+    let isFavoriteView: Bool
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -72,14 +81,7 @@ struct ShowCardView: View {
                 .lineLimit(1)
                 .padding(.init(top: 4, leading: 4, bottom: 4, trailing: 4))
             
-            HStack(spacing: 16) {
-                Button(action: {
-                    isFavorite.toggle()
-                }) {
-                    Image(systemName: isFavorite ? "heart.fill" : "heart")
-                        .foregroundColor(isFavorite ? .red : .secondary)
-                }
-                
+            HStack(spacing: 12) {
                 if show.rating != "" {
                     HStack(spacing: 4) {
                         Image(systemName: "star.fill")
@@ -89,8 +91,15 @@ struct ShowCardView: View {
                             .foregroundColor(.secondary)
                     }
                 }
+                if !isFavoriteView {
+                    Button(action: {
+                        showsViewModel.toggleFavorite(for: show)
+                    }) {
+                        Image(systemName: show.isFavorite ? "heart.fill" : "heart")
+                            .foregroundColor(show.isFavorite ? .red : .secondary)
+                    }
+                }
             }
-            .frame(maxWidth: .infinity)
         }
         .cornerRadius(8)
     }
@@ -103,7 +112,6 @@ struct ImageView: View {
         AsyncImage(url: url) { phase in
             switch phase {
             case .empty:
-                // Loading placeholder
                 Rectangle()
                     .foregroundColor(.secondary)
                     .aspectRatio(contentMode: .fit)
@@ -111,13 +119,13 @@ struct ImageView: View {
                         ProgressView()
                             .progressViewStyle(CircularProgressViewStyle())
                     )
+                
             case .success(let image):
-                // Successful image load
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                
             case .failure:
-                // Error placeholder
                 Rectangle()
                     .foregroundColor(.secondary)
                     .aspectRatio(contentMode: .fit)
@@ -126,17 +134,21 @@ struct ImageView: View {
                             .font(.largeTitle)
                             .foregroundColor(.gray)
                     )
+                
             @unknown default:
                 EmptyView()
             }
         }
         .cornerRadius(6)
+        .shadow(radius: 2)
     }
 }
 
 #Preview {
-    let showsViewModel = ShowsViewModel(showsLoader: MockShowsViewModel.mockShowsLoader)
+    let showsViewModel = ShowsViewModel(showsLoader: MockShowsViewModel.mockShowsLoader,
+                                        localShowsLoader: MockShowsViewModel.mockLocalShowsLoader())
     
     ShowsView(showsViewModel: showsViewModel,
-              navigationPath: .constant(NavigationPath()))
+              navigationPath: .constant(NavigationPath()),
+              isFavoriteView: false)
 }

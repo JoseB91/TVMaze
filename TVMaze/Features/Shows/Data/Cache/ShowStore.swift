@@ -13,4 +13,5 @@ public protocol ShowsStore {
     func deleteCache() async throws
     func insert(_ shows: [LocalShow], timestamp: Date) async throws
     func retrieve() async throws -> CachedShows?
+    func insertFavorite(for showId: Int) async throws
 }

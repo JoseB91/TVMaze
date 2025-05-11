@@ -45,7 +45,8 @@ public final class PersonShowMapper {
                             schedule: mapSchedule(with: root.schedule.time ?? "", and: root.schedule.days),
                             genres: "\(root.genres.joined(separator: ", "))",
                             summary: root.summary.removeHTMLTags(),
-                            rating: getRatingString(from: root.rating?.average))
+                            rating: getRatingString(from: root.rating?.average),
+                            isFavorite: false)
             return show
         } catch {
             throw error

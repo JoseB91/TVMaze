@@ -9,7 +9,7 @@ import Foundation
 
 final class PersonShowViewModel: ObservableObject {
     
-    @Published var show = Show(id: 0, name: "", imageURL: URL(string: "https://example.com/placeholder.jpg")!, schedule: "", genres: "", summary: "", rating: "")
+    @Published var show = Show(id: 0, name: "", imageURL: URL(string: "https://example.com/placeholder.jpg")!, schedule: "", genres: "", summary: "", rating: "", isFavorite: false)
     @Published var isLoading = false
     @Published var errorMessage: ErrorModel? = nil
     

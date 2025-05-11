@@ -45,7 +45,8 @@ public final class ShowsMapper {
                                              schedule: mapSchedule(with: $0.schedule.time ?? "", and: $0.schedule.days),
                                              genres: "\($0.genres.joined(separator: ", "))",
                                              summary: $0.summary.removeHTMLTags(),
-                                             rating: getRatingString(from: $0.rating.average))}
+                                             rating: getRatingString(from: $0.rating.average),
+                                             isFavorite: false)}
             return shows
         } catch {
             throw error

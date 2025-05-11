@@ -33,4 +33,12 @@ extension CoreDataTVMazeStore: ShowsStore {
             try ManagedCache.deleteCache(in: context)
         }
     }
+    
+    public func insertFavorite(for showId: Int) async throws {
+        try await context.perform { [context] in
+            let managedShow = try ManagedShow.find(with: showId, in: context)
+            managedShow?.isFavorite.toggle()
+            try context.save()
+        }
+    }
 }

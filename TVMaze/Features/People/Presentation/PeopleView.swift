@@ -39,7 +39,7 @@ struct PeopleView: View {
                         }
                     }
                     .padding()
-                    .searchable(text: $searchText, prompt: "Search shows")
+                    .searchable(text: $searchText, prompt: "Search people")
                 }
                 .background(Color(.systemGray6))
             }

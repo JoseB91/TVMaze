@@ -17,6 +17,7 @@ class ManagedShow: NSManagedObject {
     @NSManaged var genres: String
     @NSManaged var summary: String
     @NSManaged var rating: String
+    @NSManaged var isFavorite: Bool
     @NSManaged var cache: ManagedCache
 }
 
@@ -52,6 +53,7 @@ extension ManagedShow {
             managedShow.genres = local.genres
             managedShow.schedule = local.schedule
             managedShow.rating = local.rating
+            managedShow.isFavorite = local.isFavorite
             if let cachedData = URLImageCache.shared.getImageData(for: local.imageURL) {
                 managedShow.data = cachedData
             }
@@ -60,9 +62,9 @@ extension ManagedShow {
         return orderedSet
     }
     
-    static func find(with id: String, in context: NSManagedObjectContext) throws -> ManagedShow? {
+    static func find(with id: Int, in context: NSManagedObjectContext) throws -> ManagedShow? {
         let request = NSFetchRequest<ManagedShow>(entityName: entity().name!)
-        request.predicate = NSPredicate(format: "id == %@", id)
+        request.predicate = NSPredicate(format: "id == %@", NSNumber(value: id))
         request.returnsObjectsAsFaults = false
         request.fetchLimit = 1
         return try context.fetch(request).first
@@ -75,6 +77,7 @@ extension ManagedShow {
                          schedule: schedule,
                          genres: genres,
                          summary: summary,
-                         rating: rating)
+                         rating: rating,
+                         isFavorite: isFavorite)
     }
 }

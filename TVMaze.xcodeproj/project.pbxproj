@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B07EF3372DD12EFE00E43196 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B07EF3322DD12EFE00E43196 /* Assets.xcassets */; };
+		B07EF3602DD12EFE00E43196 /* TVMazeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07EF3342DD12EFE00E43196 /* TVMazeApp.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B0F3D13D2DCD628D0091CC10 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -17,32 +22,77 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B07EF3322DD12EFE00E43196 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B07EF3332DD12EFE00E43196 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B07EF3342DD12EFE00E43196 /* TVMazeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVMazeApp.swift; sourceTree = "<group>"; };
 		B0F3D12F2DCD628B0091CC10 /* TVMaze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TVMaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0F3D13C2DCD628D0091CC10 /* TVMazeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TVMazeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		B07EF2312DCEA5E200E43196 /* Exceptions for "TVMaze" folder in "TVMaze" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = B0F3D12E2DCD628B0091CC10 /* TVMaze */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		B0F3D1312DCD628B0091CC10 /* TVMaze */ = {
+		B07EF36F2DD12F6D00E43196 /* Shows */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				B07EF2312DCEA5E200E43196 /* Exceptions for "TVMaze" folder in "TVMaze" target */,
-			);
-			path = TVMaze;
+			path = Shows;
 			sourceTree = "<group>";
 		};
-		B0F3D13F2DCD628D0091CC10 /* TVMazeTests */ = {
+		B07EF37F2DD12F7200E43196 /* ShowDetail */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = TVMazeTests;
+			path = ShowDetail;
+			sourceTree = "<group>";
+		};
+		B07EF3862DD12F7400E43196 /* EpisodeDetail */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = EpisodeDetail;
+			sourceTree = "<group>";
+		};
+		B07EF38F2DD12F7700E43196 /* People */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = People;
+			sourceTree = "<group>";
+		};
+		B07EF39C2DD12F7900E43196 /* PersonDetail */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PersonDetail;
+			sourceTree = "<group>";
+		};
+		B07EF3A72DD12F7B00E43196 /* PersonShow */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PersonShow;
+			sourceTree = "<group>";
+		};
+		B07EF3BC2DD12FD700E43196 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		B07EF3CB2DD12FEB00E43196 /* Core */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Core;
+			sourceTree = "<group>";
+		};
+		B07EF4122DD130B000E43196 /* Helpers */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		B07EF4162DD130DE00E43196 /* Shows */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shows;
+			sourceTree = "<group>";
+		};
+		B07EF41B2DD130E100E43196 /* ShowDetail */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ShowDetail;
+			sourceTree = "<group>";
+		};
+		B07EF4202DD130E500E43196 /* People */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = People;
+			sourceTree = "<group>";
+		};
+		B07EF4232DD130E900E43196 /* PersonDetail */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PersonDetail;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -65,11 +115,65 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B07EF3252DD12EFE00E43196 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				B07EF36F2DD12F6D00E43196 /* Shows */,
+				B07EF37F2DD12F7200E43196 /* ShowDetail */,
+				B07EF3862DD12F7400E43196 /* EpisodeDetail */,
+				B07EF38F2DD12F7700E43196 /* People */,
+				B07EF39C2DD12F7900E43196 /* PersonDetail */,
+				B07EF3A72DD12F7B00E43196 /* PersonShow */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		B07EF3352DD12EFE00E43196 /* TVMaze */ = {
+			isa = PBXGroup;
+			children = (
+				B07EF3CB2DD12FEB00E43196 /* Core */,
+				B07EF3252DD12EFE00E43196 /* Features */,
+				B07EF3BC2DD12FD700E43196 /* Shared */,
+				B07EF3322DD12EFE00E43196 /* Assets.xcassets */,
+				B07EF3332DD12EFE00E43196 /* Info.plist */,
+				B07EF3342DD12EFE00E43196 /* TVMazeApp.swift */,
+			);
+			path = TVMaze;
+			sourceTree = "<group>";
+		};
+		B07EF3FF2DD130AB00E43196 /* PersonShow */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PersonShow;
+			sourceTree = "<group>";
+		};
+		B07EF4062DD130AB00E43196 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				B07EF4162DD130DE00E43196 /* Shows */,
+				B07EF41B2DD130E100E43196 /* ShowDetail */,
+				B07EF4202DD130E500E43196 /* People */,
+				B07EF4232DD130E900E43196 /* PersonDetail */,
+				B07EF3FF2DD130AB00E43196 /* PersonShow */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		B07EF4092DD130AB00E43196 /* TVMazeTests */ = {
+			isa = PBXGroup;
+			children = (
+				B07EF4062DD130AB00E43196 /* Features */,
+				B07EF4122DD130B000E43196 /* Helpers */,
+			);
+			path = TVMazeTests;
+			sourceTree = "<group>";
+		};
 		B0F3D1262DCD628B0091CC10 = {
 			isa = PBXGroup;
 			children = (
-				B0F3D1312DCD628B0091CC10 /* TVMaze */,
-				B0F3D13F2DCD628D0091CC10 /* TVMazeTests */,
+				B07EF3352DD12EFE00E43196 /* TVMaze */,
+				B07EF4092DD130AB00E43196 /* TVMazeTests */,
 				B0F3D1302DCD628B0091CC10 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -99,7 +203,14 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				B0F3D1312DCD628B0091CC10 /* TVMaze */,
+				B07EF36F2DD12F6D00E43196 /* Shows */,
+				B07EF37F2DD12F7200E43196 /* ShowDetail */,
+				B07EF3862DD12F7400E43196 /* EpisodeDetail */,
+				B07EF38F2DD12F7700E43196 /* People */,
+				B07EF39C2DD12F7900E43196 /* PersonDetail */,
+				B07EF3A72DD12F7B00E43196 /* PersonShow */,
+				B07EF3BC2DD12FD700E43196 /* Shared */,
+				B07EF3CB2DD12FEB00E43196 /* Core */,
 			);
 			name = TVMaze;
 			packageProductDependencies = (
@@ -122,7 +233,10 @@
 				B0F3D13E2DCD628D0091CC10 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				B0F3D13F2DCD628D0091CC10 /* TVMazeTests */,
+				B07EF4122DD130B000E43196 /* Helpers */,
+				B07EF4162DD130DE00E43196 /* Shows */,
+				B07EF41B2DD130E100E43196 /* ShowDetail */,
+				B07EF4202DD130E500E43196 /* People */,
 			);
 			name = TVMazeTests;
 			packageProductDependencies = (
@@ -175,6 +289,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B07EF3372DD12EFE00E43196 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B07EF3602DD12EFE00E43196 /* TVMazeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

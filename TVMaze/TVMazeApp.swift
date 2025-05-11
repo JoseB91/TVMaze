@@ -27,7 +27,8 @@ struct TVMazeApp: App {
                 // Shows Tab
                 NavigationStack(path: $showsNavigationPath) {
                     ShowsView(showsViewModel: composer.composeShowsViewModel(),
-                              navigationPath: $showsNavigationPath)
+                              navigationPath: $showsNavigationPath,
+                              isFavoriteView: false)
                     .navigationDestination(for: Show.self) { show in
                         ShowDetailView(showDetailViewModel: composer.composeShowDetailViewModel(for: show),
                                        navigationPath: $showsNavigationPath,
@@ -61,14 +62,17 @@ struct TVMazeApp: App {
                 
                 // Favorites Tab
                 NavigationStack(path: $favoritesNavigationPath) {
-                    //                    FavoritesView(favoritesViewModel: composer.composeFavoritesViewModel(),
-                    //                                 navigationPath: $favoritesNavigationPath)
-                    //                    .navigationDestination(for: Show.self) { show in
-                    //                        ShowDetailView(showDetailViewModel: composer.composeShowDetailViewModel(for: show),
-                    //                                      navigationPath: $favoritesNavigationPath,
-                    //                                      show: show)
-                    //                    }
-                    EmptyView()
+                    ShowsView(showsViewModel: composer.composeShowsViewModel(),
+                              navigationPath: $favoritesNavigationPath,
+                              isFavoriteView: true)
+                    .navigationDestination(for: Show.self) { show in
+                        ShowDetailView(showDetailViewModel: composer.composeShowDetailViewModel(for: show),
+                                       navigationPath: $favoritesNavigationPath,
+                                       show: show)
+                        .navigationDestination(for: Episode.self) { episode in
+                            EpisodeDetailView(episode: episode)
+                        }
+                    }
                 }
                 .tabItem {
                     Label("Favorites", systemImage: "heart.fill")

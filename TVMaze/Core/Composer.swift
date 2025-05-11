@@ -63,7 +63,7 @@ class Composer {
             }
         }
         
-        return ShowsViewModel(showsLoader: showsLoader)
+        return ShowsViewModel(showsLoader: showsLoader, localShowsLoader: localShowsLoader)
     }
     
     func composeShowDetailViewModel(for show: Show) -> ShowDetailViewModel {
