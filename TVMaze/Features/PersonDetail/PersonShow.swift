@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PersonShow: Identifiable {
+public struct PersonShow: Identifiable, Hashable {
     public var id: String
     public let name: String
     public let showURL: URL

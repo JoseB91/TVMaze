@@ -29,6 +29,17 @@
 		B0F3D13C2DCD628D0091CC10 /* TVMazeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TVMazeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		B07EF42E2DD141F000E43196 /* Exceptions for "PersonDetail" folder in "TVMazeTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				PersonShowsEndpointTests.swift,
+				PersonShowsMapperTests.swift,
+			);
+			target = B0F3D13B2DCD628D0091CC10 /* TVMazeTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B07EF36F2DD12F6D00E43196 /* Shows */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -92,6 +103,9 @@
 		};
 		B07EF4232DD130E900E43196 /* PersonDetail */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B07EF42E2DD141F000E43196 /* Exceptions for "PersonDetail" folder in "TVMazeTests" target */,
+			);
 			path = PersonDetail;
 			sourceTree = "<group>";
 		};

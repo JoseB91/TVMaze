@@ -18,7 +18,7 @@ final class PersonDetailViewModel: ObservableObject {
     init(personShowsLoader: @escaping () async throws -> [PersonShow]) {
         self.personShowsLoader = personShowsLoader
     }
-        
+    
     @MainActor
     func loadPersonShows() async {
         isLoading = true
@@ -31,15 +31,12 @@ final class PersonDetailViewModel: ObservableObject {
     }
 }
 
-//final class MockEpisodesViewModel {
-//    static func mockEpisodesLoader() async throws -> [Episode] {
-//        //TODO: Add real data
-//        return [Episode(id: 1,
-//                        name: "",
-//                        imageURL: URL(string: "")!,
-//                        season: 1,
-//                        number: 1,
-//                        summary: "")]
-//    }
-//}
-
+final class MockPersonDetailViewModel {
+    static func mockPersonShow() -> PersonShow {
+        return PersonShow(name: "Under the Dome", showURL: URL(string: "https://api.tvmaze.com/shows/1")!)
+    }
+    
+    static func mockPersonShowsLoader() async throws -> [PersonShow] {
+        return [mockPersonShow()]
+    }
+}

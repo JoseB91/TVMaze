@@ -11,7 +11,7 @@ public final class PersonShowsMapper {
     
     private struct Root: Decodable {
         let links: Links
-
+        
         enum CodingKeys: String, CodingKey {
             case links = "_links"
         }

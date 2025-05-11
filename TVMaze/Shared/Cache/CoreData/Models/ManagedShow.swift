@@ -51,7 +51,7 @@ extension ManagedShow {
             managedShow.imageURL = local.imageURL
             managedShow.schedule = local.schedule
             managedShow.genres = local.genres
-            managedShow.schedule = local.schedule
+            managedShow.summary = local.summary
             managedShow.rating = local.rating
             managedShow.isFavorite = local.isFavorite
             if let cachedData = URLImageCache.shared.getImageData(for: local.imageURL) {

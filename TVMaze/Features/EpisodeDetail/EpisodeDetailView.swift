@@ -10,6 +10,7 @@ import SwiftUI
 struct EpisodeDetailView: View {
     
     let episode: Episode
+    
     var body: some View {
         ScrollView {
             // Use a ViewModifier or a GenericView
@@ -17,7 +18,7 @@ struct EpisodeDetailView: View {
                 ImageView(url: episode.imageURL)
                 VStack(alignment: .leading, spacing: 4) {
                     Text(episode.summary)
-                        .font(.subheadline)
+                        .font(.footnote)
                         .foregroundColor(.secondary)
                 }
                 .padding(.horizontal)
@@ -40,9 +41,6 @@ struct EpisodeDetailView: View {
     }
 }
 
-
-//struct EpisodeDetailView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        EpisodeDetailView(episode: Episode())
-//    }
-//}
+#Preview {
+    EpisodeDetailView(episode: MockShowDetailViewModel.mockEpisode())
+}

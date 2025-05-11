@@ -14,7 +14,7 @@ struct PersonDetailView: View {
     let person: Person
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 24) {
+        VStack(alignment: .center, spacing: 24) {
             if let imageURL = person.imageURL {
                 ImageView(url: imageURL)
             } else {
@@ -54,4 +54,12 @@ struct PersonDetailView: View {
             await personDetailViewModel.loadPersonShows()
         }
     }
+}
+
+#Preview {
+    let personDetailViewModel = PersonDetailViewModel(personShowsLoader: MockPersonDetailViewModel.mockPersonShowsLoader)
+    
+    PersonDetailView(personDetailViewModel: personDetailViewModel,
+                   navigationPath: .constant(NavigationPath()),
+                     person: MockPeopleViewModel.mockPerson())
 }
