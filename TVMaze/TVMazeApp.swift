@@ -27,16 +27,13 @@ struct TVMazeApp: App {
             if !pinManager.isPINSetup {
                 PINSetupView(pinManager: pinManager)
                     .onDisappear {
-                        // When PIN setup is complete, check if we should show biometric permission
                         if pinManager.isPINSetup && pinManager.biometricType != .none && !pinManager.useBiometrics {
                             showBiometricPermission = true
                         }
                     }
             } else if showBiometricPermission {
-                // Show biometric permission view if needed
                 BiometricPermissionView(pinManager: pinManager, isShowing: $showBiometricPermission)
             } else if !pinManager.isAuthenticated {
-                // Show PIN entry screen if PIN is set but user is not authenticated
                 PINEntryView(pinManager: pinManager)
             } else {
                 TabView(selection: $selectedTab) {

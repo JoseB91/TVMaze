@@ -17,8 +17,8 @@ struct PINSetupView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("Set a PIN")
-                .font(.largeTitle)
+            Text("Welcome to Tvmaze app!")
+                .font(.title)
                 .fontWeight(.bold)
             
             Text("Create a PIN code to secure your application")
@@ -26,38 +26,38 @@ struct PINSetupView: View {
                 .multilineTextAlignment(.center)
                 .padding(.bottom)
             
-            SecureField("Enter PIN (4-6 digits)", text: $pin)
+            SecureField("Enter 4 digits PIN", text: $pin)
                 .keyboardType(.numberPad)
                 .textContentType(.oneTimeCode)
                 .padding()
                 .background(Color(.systemGray6))
                 .cornerRadius(8)
+                .onChange(of: pin) { newValue in
+                    if newValue.count > 4 {
+                        pin = String(newValue.prefix(4))
+                    }
+                }
             
-            SecureField("Confirm PIN", text: $confirmPin)
+            SecureField("Confirm 4 digits PIN", text: $confirmPin)
                 .keyboardType(.numberPad)
                 .textContentType(.oneTimeCode)
                 .padding()
                 .background(Color(.systemGray6))
                 .cornerRadius(8)
+                .onChange(of: pin) { newValue in
+                    if newValue.count > 4 {
+                        pin = String(newValue.prefix(4))
+                    }
+                }
             
             if showError {
                 Text(errorMessage)
                     .foregroundColor(.red)
                     .font(.callout)
             }
-            
-            // Show Face ID/Touch ID option if available
-            if pinManager.biometricType != .none && !offerBiometrics {
-                Toggle(
-                    pinManager.biometricType == .faceID ? "Use Face ID for future logins" : "Use Touch ID for future logins",
-                    isOn: $pinManager.useBiometrics
-                )
-                .padding(.vertical)
-            }
-            
+                        
             Button(action: {
                 if validateAndSavePIN() {
-                    // PIN setup successful
                     if pinManager.biometricType != .none && pinManager.useBiometrics {
                         offerBiometrics = true
                     }
@@ -72,8 +72,6 @@ struct PINSetupView: View {
                     .cornerRadius(8)
             }
             .disabled(pin.isEmpty || confirmPin.isEmpty)
-            
-            Spacer()
         }
         .padding()
         .alert(isPresented: $offerBiometrics) {
@@ -91,17 +89,15 @@ struct PINSetupView: View {
     }
     
     private func validateAndSavePIN() -> Bool {
-        // Check if PINs match
         if pin != confirmPin {
             errorMessage = "PINs don't match. Please try again."
             showError = true
             return false
         }
         
-        // Attempt to save PIN
         let success = pinManager.setupPIN(pin: pin)
         if !success {
-            errorMessage = "PIN must be 4-6 digits only."
+            errorMessage = "PIN must contains 4 digits."
             showError = true
             return false
         }
