@@ -10,6 +10,8 @@ import SwiftUI
 @main
 struct TVMazeApp: App {
     private let composer: Composer
+    @StateObject private var pinManager = PINManager()
+    @State private var showBiometricPermission = false
     
     init() {
         self.composer = Composer.makeComposer()
@@ -22,62 +24,78 @@ struct TVMazeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            TabView(selection: $selectedTab) {
-                // Shows Tab
-                NavigationStack(path: $showsNavigationPath) {
-                    ShowsView(showsViewModel: composer.composeShowsViewModel(),
-                              navigationPath: $showsNavigationPath,
-                              isFavoriteView: false)
-                    .navigationDestination(for: Show.self) { show in
-                        ShowDetailView(showDetailViewModel: composer.composeShowDetailViewModel(for: show),
-                                       navigationPath: $showsNavigationPath,
-                                       show: show)
-                        .navigationDestination(for: Episode.self) { episode in
-                            EpisodeDetailView(episode: episode)
+            if !pinManager.isPINSetup {
+                PINSetupView(pinManager: pinManager)
+                    .onDisappear {
+                        // When PIN setup is complete, check if we should show biometric permission
+                        if pinManager.isPINSetup && pinManager.biometricType != .none && !pinManager.useBiometrics {
+                            showBiometricPermission = true
                         }
                     }
-                }
-                .tabItem {
-                    Label("Shows", systemImage: "tv")
-                }
-                .tag(0)
-                
-                // People Tab
-                NavigationStack(path: $peopleNavigationPath) {
-                    PeopleView(peopleViewModel: composer.composePeopleViewModel(),
-                               navigationPath: $peopleNavigationPath)
-                    .navigationDestination(for: Person.self) { person in
-                        PersonDetailView(personDetailViewModel: composer.composePersonDetailViewModel(for: person), navigationPath: $peopleNavigationPath,
-                                         person: person)
-                    }
-                    .navigationDestination(for: URL.self) { url in
-                        PersonShowView(personShowViewModel: composer.composePersonShowViewModel(with: url))
-                    }
-                }
-                .tabItem {
-                    Label("People", systemImage: "person.fill")
-                }
-                .tag(1)
-                
-                // Favorites Tab
-                NavigationStack(path: $favoritesNavigationPath) {
-                    ShowsView(showsViewModel: composer.composeShowsViewModel(),
-                              navigationPath: $favoritesNavigationPath,
-                              isFavoriteView: true)
-                    .navigationDestination(for: Show.self) { show in
-                        ShowDetailView(showDetailViewModel: composer.composeShowDetailViewModel(for: show),
-                                       navigationPath: $favoritesNavigationPath,
-                                       show: show)
-                        .navigationDestination(for: Episode.self) { episode in
-                            EpisodeDetailView(episode: episode)
+            } else if showBiometricPermission {
+                // Show biometric permission view if needed
+                BiometricPermissionView(pinManager: pinManager, isShowing: $showBiometricPermission)
+            } else if !pinManager.isAuthenticated {
+                // Show PIN entry screen if PIN is set but user is not authenticated
+                PINEntryView(pinManager: pinManager)
+            } else {
+                TabView(selection: $selectedTab) {
+                    // Shows Tab
+                    NavigationStack(path: $showsNavigationPath) {
+                        ShowsView(showsViewModel: composer.composeShowsViewModel(),
+                                  navigationPath: $showsNavigationPath,
+                                  isFavoriteView: false)
+                        .navigationDestination(for: Show.self) { show in
+                            ShowDetailView(showDetailViewModel: composer.composeShowDetailViewModel(for: show),
+                                           navigationPath: $showsNavigationPath,
+                                           show: show)
+                            .navigationDestination(for: Episode.self) { episode in
+                                EpisodeDetailView(episode: episode)
+                            }
                         }
                     }
+                    .tabItem {
+                        Label("Shows", systemImage: "tv")
+                    }
+                    .tag(0)
+                    
+                    // People Tab
+                    NavigationStack(path: $peopleNavigationPath) {
+                        PeopleView(peopleViewModel: composer.composePeopleViewModel(),
+                                   navigationPath: $peopleNavigationPath)
+                        .navigationDestination(for: Person.self) { person in
+                            PersonDetailView(personDetailViewModel: composer.composePersonDetailViewModel(for: person), navigationPath: $peopleNavigationPath,
+                                             person: person)
+                        }
+                        .navigationDestination(for: URL.self) { url in
+                            PersonShowView(personShowViewModel: composer.composePersonShowViewModel(with: url))
+                        }
+                    }
+                    .tabItem {
+                        Label("People", systemImage: "person.fill")
+                    }
+                    .tag(1)
+                    
+                    // Favorites Tab
+                    NavigationStack(path: $favoritesNavigationPath) {
+                        ShowsView(showsViewModel: composer.composeShowsViewModel(),
+                                  navigationPath: $favoritesNavigationPath,
+                                  isFavoriteView: true)
+                        .navigationDestination(for: Show.self) { show in
+                            ShowDetailView(showDetailViewModel: composer.composeShowDetailViewModel(for: show),
+                                           navigationPath: $favoritesNavigationPath,
+                                           show: show)
+                            .navigationDestination(for: Episode.self) { episode in
+                                EpisodeDetailView(episode: episode)
+                            }
+                        }
+                    }
+                    .tabItem {
+                        Label("Favorites", systemImage: "heart.fill")
+                    }
+                    .tag(2)
+                    
                 }
-                .tabItem {
-                    Label("Favorites", systemImage: "heart.fill")
-                }
-                .tag(2)
-                
             }
         }
     }

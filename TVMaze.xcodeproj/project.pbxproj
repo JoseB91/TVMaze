@@ -109,6 +109,11 @@
 			path = PersonDetail;
 			sourceTree = "<group>";
 		};
+		B0A5238F2DD15CFB00DA8FCF /* PIN */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = PIN;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +137,7 @@
 		B07EF3252DD12EFE00E43196 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				B0A5238F2DD15CFB00DA8FCF /* PIN */,
 				B07EF36F2DD12F6D00E43196 /* Shows */,
 				B07EF37F2DD12F7200E43196 /* ShowDetail */,
 				B07EF3862DD12F7400E43196 /* EpisodeDetail */,
@@ -155,13 +161,6 @@
 			path = TVMaze;
 			sourceTree = "<group>";
 		};
-		B07EF3FF2DD130AB00E43196 /* PersonShow */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = PersonShow;
-			sourceTree = "<group>";
-		};
 		B07EF4062DD130AB00E43196 /* Features */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,7 +168,6 @@
 				B07EF41B2DD130E100E43196 /* ShowDetail */,
 				B07EF4202DD130E500E43196 /* People */,
 				B07EF4232DD130E900E43196 /* PersonDetail */,
-				B07EF3FF2DD130AB00E43196 /* PersonShow */,
 			);
 			path = Features;
 			sourceTree = "<group>";
@@ -225,6 +223,7 @@
 				B07EF3A72DD12F7B00E43196 /* PersonShow */,
 				B07EF3BC2DD12FD700E43196 /* Shared */,
 				B07EF3CB2DD12FEB00E43196 /* Core */,
+				B0A5238F2DD15CFB00DA8FCF /* PIN */,
 			);
 			name = TVMaze;
 			packageProductDependencies = (
