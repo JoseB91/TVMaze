@@ -74,7 +74,7 @@ final class ShowsViewModel: ObservableObject {
                 do {
                     try await localShowsLoader.saveFavorite(for: show.id)
                 } catch {
-                    DispatchQueue.main.async {
+                    await MainActor.run {
                         self.errorMessage = ErrorModel(message: "Failed to save favorite: \(error.localizedDescription)")
                         
                         
