@@ -10,12 +10,12 @@ import Foundation
 public struct Episode: Hashable, Identifiable {
     public let id: Int
     public let name: String
-    public let imageURL: URL
+    public let imageURL: URL?
     public let season: Int
     public let number: Int
     public let summary: String
     
-    public init(id: Int, name: String, imageURL: URL, season: Int, number:  Int, summary: String) {
+    public init(id: Int, name: String, imageURL: URL?, season: Int, number:  Int, summary: String) {
         self.id = id
         self.name = name
         self.imageURL = imageURL

@@ -13,11 +13,11 @@ public final class EpisodesMapper {
         let id: Int
         let name: String
         let season, number: Int
-        let image: ImageDecodable
+        let image: ImageDecodable?
         let summary: String
         
         struct ImageDecodable: Decodable {
-            let medium, original: URL
+            let medium, original: URL?
         }
     }
     
@@ -30,7 +30,7 @@ public final class EpisodesMapper {
             let rootArray = try JSONDecoder().decode([Root].self, from: data)
             let shows = rootArray.map { Episode(id: $0.id,
                                                 name: $0.name,
-                                                imageURL: $0.image.medium,
+                                                imageURL: $0.image?.medium,
                                                 season: $0.season,
                                                 number: $0.number,
                                                 summary: $0.summary.removeHTMLTags()) }

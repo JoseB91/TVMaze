@@ -13,6 +13,7 @@ class Composer {
     private let baseURL: URL
     private let httpClient: URLSessionHTTPClient
     private let localShowsLoader: LocalShowsLoader
+    private var showsCount = 0
 
     init(baseURL: URL, httpClient: URLSessionHTTPClient, localShowsLoader: LocalShowsLoader) {
         self.baseURL = baseURL
@@ -49,21 +50,27 @@ class Composer {
             do {
                 return try await localShowsLoader.load()
             } catch {
-                let url = ShowsEndpoint.getShows(page: 0).url(baseURL: baseURL)
+                let page = self.getCurrentPage()
+                let url = ShowsEndpoint.getShows(page: page).url(baseURL: baseURL)
                 let (data, response) = try await httpClient.get(from: url)
                 let shows = try ShowsMapper.map(data, from: response)
+                self.showsCount = shows.count
 
                 do {
                     try await localShowsLoader.save(shows)
                 } catch {
                     print(error) //TODO: Delete this
                 }
-
+                
                 return shows
             }
         }
         
         return ShowsViewModel(showsLoader: showsLoader, localShowsLoader: localShowsLoader)
+    }
+    
+    private func getCurrentPage() -> Int {
+        return showsCount != 0 ? (250 / showsCount) + 1 : 0
     }
     
     func composeShowDetailViewModel(for show: Show) -> ShowDetailViewModel {

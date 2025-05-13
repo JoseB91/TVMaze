@@ -12,7 +12,7 @@ public final class PeopleMapper {
     private struct Root: Decodable {
         let id: Int
         let name: String
-        let image: ImageDecodable? //TODO: Review if images and other data can be optional
+        let image: ImageDecodable?
         
         struct ImageDecodable: Decodable {
             let medium, original: URL

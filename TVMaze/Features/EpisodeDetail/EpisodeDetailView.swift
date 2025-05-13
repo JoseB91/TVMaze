@@ -14,7 +14,9 @@ struct EpisodeDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                ImageView(url: episode.imageURL)
+                if let imageURL = episode.imageURL {
+                    ImageView(url: imageURL)
+                }
                 VStack(alignment: .leading, spacing: 4) {
                     Text(episode.summary)
                         .font(.footnote)

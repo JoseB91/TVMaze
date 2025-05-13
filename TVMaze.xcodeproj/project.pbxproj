@@ -22,6 +22,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B0346F862DD38440002F86EB /* TVMaze.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = TVMaze.xctestplan; path = TVMaze/TVMaze.xctestplan; sourceTree = "<group>"; };
 		B07EF3322DD12EFE00E43196 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B07EF3332DD12EFE00E43196 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B07EF3342DD12EFE00E43196 /* TVMazeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TVMazeApp.swift; sourceTree = "<group>"; };
@@ -41,6 +42,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		B0346F7E2DD37AF8002F86EB /* Cache */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Cache;
+			sourceTree = "<group>";
+		};
 		B07EF36F2DD12F6D00E43196 /* Shows */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Shows;
@@ -175,6 +181,7 @@
 		B07EF4092DD130AB00E43196 /* TVMazeTests */ = {
 			isa = PBXGroup;
 			children = (
+				B0346F7E2DD37AF8002F86EB /* Cache */,
 				B07EF4062DD130AB00E43196 /* Features */,
 				B07EF4122DD130B000E43196 /* Helpers */,
 			);
@@ -184,6 +191,7 @@
 		B0F3D1262DCD628B0091CC10 = {
 			isa = PBXGroup;
 			children = (
+				B0346F862DD38440002F86EB /* TVMaze.xctestplan */,
 				B07EF3352DD12EFE00E43196 /* TVMaze */,
 				B07EF4092DD130AB00E43196 /* TVMazeTests */,
 				B0F3D1302DCD628B0091CC10 /* Products */,
@@ -246,6 +254,7 @@
 				B0F3D13E2DCD628D0091CC10 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
+				B0346F7E2DD37AF8002F86EB /* Cache */,
 				B07EF4122DD130B000E43196 /* Helpers */,
 				B07EF4162DD130DE00E43196 /* Shows */,
 				B07EF41B2DD130E100E43196 /* ShowDetail */,
