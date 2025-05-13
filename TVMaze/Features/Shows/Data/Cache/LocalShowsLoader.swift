@@ -34,6 +34,7 @@ extension LocalShowsLoader: ShowCache {
 
 extension LocalShowsLoader {
     private struct FailedLoad: Error {}
+    private struct FailedFavoriteSave: Error {}
     
     public func load() async throws -> [Show] {
         if let cache = try await store.retrieve(), CachePolicy.validate(cache.timestamp, against: currentDate()) {
@@ -47,7 +48,7 @@ extension LocalShowsLoader {
         do {
             try await store.insertFavorite(for: showId)
         } catch {
-            print(error)
+            throw FailedFavoriteSave()
         }
     }
 }

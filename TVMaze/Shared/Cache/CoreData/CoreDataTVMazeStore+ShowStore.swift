@@ -16,16 +16,7 @@ extension CoreDataTVMazeStore: ShowsStore {
             }
         }
     }
-    
-//    public func insert(_ shows: [LocalShow], timestamp: Date) async throws {
-//        try await context.perform { [context] in
-//            let managedCache = ManagedCache(context: context)
-//            managedCache.timestamp = timestamp
-//            managedCache.shows = ManagedShow.fetchShows(from: shows, in: context)
-//            try context.save()
-//        }
-//    }
-    
+        
     public func insert(_ shows: [LocalShow], timestamp: Date) async throws {
         try await context.perform { [context] in
             let managedCache = try ManagedCache.find(in: context) ?? ManagedCache(context: context)

@@ -59,7 +59,7 @@ class PINManager: ObservableObject {
             return false
         }
         
-        //TODO: User Keychain
+        //TODO: Use Keychain
         UserDefaults.standard.set(pin, forKey: pinKey)
         UserDefaults.standard.set(true, forKey: isSetupKey)
         isPINSetup = true
