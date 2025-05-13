@@ -75,7 +75,7 @@ struct TVMazeApp: App {
                     
                     // Favorites Tab
                     NavigationStack(path: $favoritesNavigationPath) {
-                        ShowsView(showsViewModel: composer.composeShowsViewModel(),
+                        ShowsView(showsViewModel: composer.composeFavoriteShowsViewModel(),
                                   navigationPath: $favoritesNavigationPath,
                                   isFavoriteView: true)
                         .navigationDestination(for: Show.self) { show in

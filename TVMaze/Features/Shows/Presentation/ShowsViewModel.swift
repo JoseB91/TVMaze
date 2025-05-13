@@ -16,12 +16,44 @@ final class ShowsViewModel: ObservableObject {
     @Published var hasMoreContent = true
     @Published var currentPage = 0
     
-    private let showsLoader: (_ page: Int) async throws -> [Show]
+    private let showsLoader: (_ page: Int, _ append: Bool) async throws -> [Show]
     private let localShowsLoader: LocalShowsLoader
+    private let isFavoriteViewModel: Bool
     
-    init(showsLoader: @escaping (_ page: Int) async throws -> [Show], localShowsLoader: LocalShowsLoader) {
+    init(showsLoader: @escaping (_ page: Int, _ append: Bool) async throws -> [Show], localShowsLoader: LocalShowsLoader, isFavoriteViewModel: Bool) {
         self.showsLoader = showsLoader
         self.localShowsLoader = localShowsLoader
+        self.isFavoriteViewModel = isFavoriteViewModel
+    }
+    
+    @MainActor
+    func loadShows() async {
+        if isFavoriteViewModel {
+            isLoading = true
+            do {
+                shows = try await showsLoader(0, false)
+            } catch {
+                errorMessage = ErrorModel(message: "Failed to load favorite shows: \(error.localizedDescription)")
+            }
+            isLoading = false
+        } else {
+            if isLoading || !hasMoreContent { return }
+            
+            isLoading = true
+            do {
+                let append = currentPage > 0
+                shows = try await showsLoader(currentPage, append)
+                
+                if shows.isEmpty || shows.count < 200 {
+                    hasMoreContent = false
+                }
+                
+                currentPage += 1
+            } catch {
+                errorMessage = ErrorModel(message: "Failed to load shows: \(error.localizedDescription)")
+            }
+            isLoading = false
+        }
     }
     
     
@@ -33,32 +65,7 @@ final class ShowsViewModel: ObservableObject {
         
         await loadShows()
     }
-    
-    @MainActor
-    func loadShows() async {
-        if isLoading || !hasMoreContent { return }
         
-        do {
-            let newShows = try await showsLoader(currentPage)
-            
-            if newShows.isEmpty || newShows.last?.id != 249 {
-                hasMoreContent = false
-            }
-            
-            if currentPage == 0 {
-                shows = newShows
-            } else {
-                shows.append(contentsOf: newShows)
-            }
-            
-            currentPage += 1
-        } catch {
-            errorMessage = ErrorModel(message: "Failed to load shows: \(error.localizedDescription)")
-        }
-        isLoading = false
-    }
-    
-    @MainActor
     func toggleFavorite(for show: Show) {
         if let index = shows.firstIndex(where: { $0.id == show.id }) {
             shows[index].isFavorite.toggle()
@@ -67,10 +74,13 @@ final class ShowsViewModel: ObservableObject {
                 do {
                     try await localShowsLoader.saveFavorite(for: show.id)
                 } catch {
-                    self.errorMessage = ErrorModel(message: "Failed to save favorite: \(error.localizedDescription)")
-                    
-                    if let index = self.shows.firstIndex(where: { $0.id == show.id }) {
-                        self.shows[index].isFavorite.toggle()
+                    DispatchQueue.main.async {
+                        self.errorMessage = ErrorModel(message: "Failed to save favorite: \(error.localizedDescription)")
+                        
+                        
+                        if let index = self.shows.firstIndex(where: { $0.id == show.id }) {
+                            self.shows[index].isFavorite.toggle()
+                        }
                     }
                 }
             }
@@ -90,7 +100,7 @@ final class MockShowsViewModel {
                     isFavorite: false)
     }
     
-    static func mockShowsLoader(_ page: Int) async throws -> [Show] {
+    static func mockShowsLoader(_ page: Int, _ append: Bool) async throws -> [Show] {
         return [mockShow()]
     }
     
@@ -113,4 +123,3 @@ final class MockShowStore: ShowsStore {
     func insertFavorite(for showId: Int) async throws {
     }
 }
-

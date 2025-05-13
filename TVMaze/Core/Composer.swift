@@ -13,7 +13,6 @@ class Composer {
     private let baseURL: URL
     private let httpClient: URLSessionHTTPClient
     private let localShowsLoader: LocalShowsLoader
-    private var showsCount = 0
 
     init(baseURL: URL, httpClient: URLSessionHTTPClient, localShowsLoader: LocalShowsLoader) {
         self.baseURL = baseURL
@@ -44,76 +43,45 @@ class Composer {
         }
     }
 
-//    func composeShowsViewModel() -> ShowsViewModel {
-//        let showsLoader: () async throws -> [Show] = { [baseURL, httpClient, localShowsLoader] in
-//            
-//            do {
-//                return try await localShowsLoader.load()
-//            } catch {
-//                let page = self.getCurrentPage()
-//                let url = ShowsEndpoint.getShows(page: page).url(baseURL: baseURL)
-//                let (data, response) = try await httpClient.get(from: url)
-//                let shows = try ShowsMapper.map(data, from: response)
-//                self.showsCount = shows.count
-//
-//                do {
-//                    try await localShowsLoader.save(shows)
-//                } catch {
-//                    print(error) 
-//                }
-//                
-//                return shows
-//            }
-//        }
-//        
-//        return ShowsViewModel(showsLoader: showsLoader, localShowsLoader: localShowsLoader)
-//    }
-    
-    // Finally, update the composer function to work with pagination
     func composeShowsViewModel() -> ShowsViewModel {
-        let showsLoader: (_ page: Int) async throws -> [Show] = { [baseURL, httpClient, localShowsLoader] page in
-            do {
-                if page == 0 {
+        let showsLoader: (_ page: Int, _ append: Bool) async throws -> [Show] = { [baseURL, httpClient, localShowsLoader] page, append in
+            
+            if !append && page == 0 {
+                do {
                     return try await localShowsLoader.load()
-                } else {
+                } catch {
                     let url = ShowsEndpoint.getShows(page: page).url(baseURL: baseURL)
                     let (data, response) = try await httpClient.get(from: url)
                     let shows = try ShowsMapper.map(data, from: response)
                     
-                    if page == 0 {
-                        do {
-                            try await localShowsLoader.save(shows)
-                        } catch {
-                            print(error)
-                        }
-                    }
-                    
-                    return shows
-                }
-            } catch {
-                let url = ShowsEndpoint.getShows(page: page).url(baseURL: baseURL)
-                let (data, response) = try await httpClient.get(from: url)
-                let shows = try ShowsMapper.map(data, from: response)
-                
-                if page == 0 {
                     do {
                         try await localShowsLoader.save(shows)
                     } catch {
                         print(error)
                     }
+                    
+                    return shows
                 }
+            } else {
+                let url = ShowsEndpoint.getShows(page: page).url(baseURL: baseURL)
+                let (data, response) = try await httpClient.get(from: url)
+                let newShows = try ShowsMapper.map(data, from: response)
                 
-                return shows
+                do {
+                    try await localShowsLoader.save(newShows)
+                } catch {
+                    print(error)
+                }
+                                
+                return try await localShowsLoader.load()
             }
         }
         
-        return ShowsViewModel(showsLoader: showsLoader, localShowsLoader: localShowsLoader)
+        return ShowsViewModel(showsLoader: showsLoader,
+                              localShowsLoader: localShowsLoader,
+                              isFavoriteViewModel: false)
     }
-    
-    private func getCurrentPage() -> Int {
-        return showsCount != 0 ? (250 / showsCount) + 1 : 0
-    }
-    
+
     func composeShowDetailViewModel(for show: Show) -> ShowDetailViewModel {
         let episodesLoader: () async throws -> [Episode] = { [baseURL, httpClient] in
             
@@ -163,5 +131,15 @@ class Composer {
         }
         
         return PersonShowViewModel(personShowLoader: personShowLoader)
+    }
+    
+    func composeFavoriteShowsViewModel() -> ShowsViewModel {
+        let showsLoader: (_ page: Int, _ append: Bool) async throws -> [Show] = { [localShowsLoader] _, _ in
+            return try await localShowsLoader.load()
+        }
+        
+        return ShowsViewModel(showsLoader: showsLoader,
+                              localShowsLoader: localShowsLoader,
+                              isFavoriteViewModel: true)
     }
 }

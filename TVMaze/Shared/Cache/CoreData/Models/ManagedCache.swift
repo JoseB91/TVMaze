@@ -23,16 +23,7 @@ extension ManagedCache {
     static func deleteCache(in context: NSManagedObjectContext) throws {
         try find(in: context).map(context.delete).map(context.save)
     }
-    
-    static func newUniqueInstance(in context: NSManagedObjectContext) throws -> ManagedCache {
-        try deleteCache(in: context)
-        return ManagedCache(context: context)
-    }
-    
-    static func cacheExists(in context: NSManagedObjectContext) throws -> Bool {
-        try find(in: context) != nil
-    }
-    
+            
     var localShows: [LocalShow] {
         return shows.compactMap { ($0 as? ManagedShow)?.local }
     }

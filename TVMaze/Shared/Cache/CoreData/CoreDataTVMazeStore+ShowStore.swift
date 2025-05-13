@@ -17,14 +17,25 @@ extension CoreDataTVMazeStore: ShowsStore {
         }
     }
     
+//    public func insert(_ shows: [LocalShow], timestamp: Date) async throws {
+//        try await context.perform { [context] in
+//            let managedCache = ManagedCache(context: context)
+//            managedCache.timestamp = timestamp
+//            managedCache.shows = ManagedShow.fetchShows(from: shows, in: context)
+//            try context.save()
+//        }
+//    }
+    
     public func insert(_ shows: [LocalShow], timestamp: Date) async throws {
         try await context.perform { [context] in
-            if try !ManagedCache.cacheExists(in: context) {
-                let managedCache = try ManagedCache.newUniqueInstance(in: context)
-                managedCache.timestamp = timestamp
-                managedCache.shows = ManagedShow.fetchShows(from: shows, in: context)
-                try context.save()
-            }
+            let managedCache = try ManagedCache.find(in: context) ?? ManagedCache(context: context)
+            managedCache.timestamp = timestamp
+            let newManagedShows = ManagedShow.fetchShows(from: shows, in: context)
+            let mutableShows = NSMutableOrderedSet(orderedSet: managedCache.shows)
+            mutableShows.addObjects(from: newManagedShows.array)
+            managedCache.shows = mutableShows
+
+            try context.save()
         }
     }
     

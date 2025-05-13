@@ -29,7 +29,7 @@ struct ShowsView: View {
         ZStack {
             if isFavoriteView && showsViewModel.shows.filter(\.self.isFavorite).isEmpty {
                 Text("Your favorite shows will appear here")
-            } else if showsViewModel.isLoading {
+            } else if showsViewModel.isLoading && showsViewModel.currentPage == 0 {
                 ProgressView("Loading shows...")
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
             } else {
@@ -69,18 +69,11 @@ struct ShowsView: View {
                         await showsViewModel.refreshShows()
                     }
                 }
-                .overlay { //TODO: review this
-                    if showsViewModel.isLoading && showsViewModel.currentPage == 0 {
-                        ProgressView("Loading shows...")
-                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                            .background(Color(.systemBackground).opacity(0.7))
-                    }
-                }
                 .background(Color(.systemGray6))
             }
         }
         .task {
-            await showsViewModel.loadShows()
+            await showsViewModel.refreshShows()
         }
         .navigationTitle(isFavoriteView ? "Favorites" : "Shows")
         .alert(item: $showsViewModel.errorMessage) { error in
@@ -95,7 +88,8 @@ struct ShowsView: View {
 
 #Preview {
     let showsViewModel = ShowsViewModel(showsLoader: MockShowsViewModel.mockShowsLoader,
-                                        localShowsLoader: MockShowsViewModel.mockLocalShowsLoader())
+                                        localShowsLoader: MockShowsViewModel.mockLocalShowsLoader(),
+                                        isFavoriteViewModel: false)
     
     ShowsView(showsViewModel: showsViewModel,
               navigationPath: .constant(NavigationPath()),

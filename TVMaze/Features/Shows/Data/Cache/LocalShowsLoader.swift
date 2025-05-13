@@ -24,7 +24,7 @@ public protocol ShowCache {
 extension LocalShowsLoader: ShowCache {
     public func save(_ shows: [Show]) async throws {
         do {
-            try await store.deleteCache()
+            //try await store.deleteCache()
             try await store.insert(shows.toLocal(), timestamp: currentDate())
         } catch {
             try await store.deleteCache()
