@@ -44,9 +44,9 @@ struct PINSetupView: View {
                 .padding()
                 .background(Color(.systemGray6))
                 .cornerRadius(8)
-                .onChange(of: pin) { newValue in
+                .onChange(of: confirmPin) { newValue in
                     if newValue.count > 4 {
-                        pin = String(newValue.prefix(4))
+                        confirmPin = String(newValue.prefix(4))
                     }
                 }
             

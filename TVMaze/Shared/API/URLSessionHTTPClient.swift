@@ -31,5 +31,3 @@ public final class URLSessionHTTPClient: HTTPClient {
         return (data, httpResponse)
     }
 }
-
-// TODO: Add tests for this
