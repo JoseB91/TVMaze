@@ -26,12 +26,7 @@
 
 ## 4. To Be Implemented
 
-- Caching for people data.
-- Image caching to replace `AsyncImage` and store images locally.
-- Unit tests for:
-  - `URLSessionHTTPClient`
-  - `CoreDataTVMazeStore`
-  - `InMemoryStore`
-- Acceptance and integration tests.
-- UI tests.
+- Caching for people data and for app images to replace `AsyncImage` and store images locally.
+- Unit tests for: `URLSessionHTTPClient`, `CoreDataTVMazeStore` and `InMemoryStore`.
+- Acceptance, UI and Integration tests.
 - A **Settings** tab to manage: PIN change, PIN reset and Biometric authentication configuration
