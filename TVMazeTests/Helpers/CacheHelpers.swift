@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import TVMaze
 
 extension XCTestCase {
     func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
@@ -39,4 +40,10 @@ extension Date {
     private var feedCacheMaxAgeInDays: Int {
         return 7
     }
+}
+
+func mockShows() -> (models: [Show], local: [LocalShow]) {
+    let models = [MockShowsViewModel.mockShow()]
+    let local = models.toLocal()
+    return (models, local)
 }

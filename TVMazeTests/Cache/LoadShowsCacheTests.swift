@@ -6,7 +6,7 @@
 //
 
 import XCTest
-@testable import TVMaze
+import TVMaze
 
 final class LoadShowsCacheTests: XCTestCase {
 
@@ -102,8 +102,3 @@ final class LoadShowsCacheTests: XCTestCase {
     }
 }
 
-func mockShows() -> (models: [Show], local: [LocalShow]) {
-    let models = [MockShowsViewModel.mockShow()]
-    let local = models.toLocal()
-    return (models, local)
-}
