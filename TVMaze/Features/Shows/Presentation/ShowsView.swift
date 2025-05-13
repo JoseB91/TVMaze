@@ -44,10 +44,37 @@ struct ShowsView: View {
                                              isFavoriteView: isFavoriteView)
                             }
                             .buttonStyle(PlainButtonStyle())
+                            .onAppear {
+                                if !isFavoriteView && showsViewModel.hasMoreContent {
+                                    let thresholdIndex = showsViewModel.shows.index(showsViewModel.shows.endIndex, offsetBy: -5)
+                                    if showsViewModel.shows.firstIndex(where: { $0.id == show.id }) ?? 0 >= thresholdIndex {
+                                        Task {
+                                            await showsViewModel.loadShows()
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     .padding()
                     .searchable(text: $searchText, prompt: "Search shows")
+
+                    if showsViewModel.isLoading && showsViewModel.currentPage > 0 {
+                        ProgressView()
+                            .padding()
+                    }
+                }
+                .refreshable {
+                    if !isFavoriteView {
+                        await showsViewModel.refreshShows()
+                    }
+                }
+                .overlay { //TODO: review this
+                    if showsViewModel.isLoading && showsViewModel.currentPage == 0 {
+                        ProgressView("Loading shows...")
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                            .background(Color(.systemBackground).opacity(0.7))
+                    }
                 }
                 .background(Color(.systemGray6))
             }

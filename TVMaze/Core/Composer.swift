@@ -44,22 +44,63 @@ class Composer {
         }
     }
 
+//    func composeShowsViewModel() -> ShowsViewModel {
+//        let showsLoader: () async throws -> [Show] = { [baseURL, httpClient, localShowsLoader] in
+//            
+//            do {
+//                return try await localShowsLoader.load()
+//            } catch {
+//                let page = self.getCurrentPage()
+//                let url = ShowsEndpoint.getShows(page: page).url(baseURL: baseURL)
+//                let (data, response) = try await httpClient.get(from: url)
+//                let shows = try ShowsMapper.map(data, from: response)
+//                self.showsCount = shows.count
+//
+//                do {
+//                    try await localShowsLoader.save(shows)
+//                } catch {
+//                    print(error) 
+//                }
+//                
+//                return shows
+//            }
+//        }
+//        
+//        return ShowsViewModel(showsLoader: showsLoader, localShowsLoader: localShowsLoader)
+//    }
+    
+    // Finally, update the composer function to work with pagination
     func composeShowsViewModel() -> ShowsViewModel {
-        let showsLoader: () async throws -> [Show] = { [baseURL, httpClient, localShowsLoader] in
-            
+        let showsLoader: (_ page: Int) async throws -> [Show] = { [baseURL, httpClient, localShowsLoader] page in
             do {
-                return try await localShowsLoader.load()
+                if page == 0 {
+                    return try await localShowsLoader.load()
+                } else {
+                    let url = ShowsEndpoint.getShows(page: page).url(baseURL: baseURL)
+                    let (data, response) = try await httpClient.get(from: url)
+                    let shows = try ShowsMapper.map(data, from: response)
+                    
+                    if page == 0 {
+                        do {
+                            try await localShowsLoader.save(shows)
+                        } catch {
+                            print(error)
+                        }
+                    }
+                    
+                    return shows
+                }
             } catch {
-                let page = self.getCurrentPage()
                 let url = ShowsEndpoint.getShows(page: page).url(baseURL: baseURL)
                 let (data, response) = try await httpClient.get(from: url)
                 let shows = try ShowsMapper.map(data, from: response)
-                self.showsCount = shows.count
-
-                do {
-                    try await localShowsLoader.save(shows)
-                } catch {
-                    print(error) //TODO: Delete this
+                
+                if page == 0 {
+                    do {
+                        try await localShowsLoader.save(shows)
+                    } catch {
+                        print(error)
+                    }
                 }
                 
                 return shows
