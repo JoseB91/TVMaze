@@ -14,7 +14,17 @@
 - **Networking** is performed using **URLSession**.
 - **Unit tests** are implemented for the persistence and networking layers.
 
-## 3. To Be Implemented
+## 3. Features
+
+- All mandatory and bonus features are implemented.
+- The app begins with a **PIN setup** screen, followed by three main tabs: **Shows**, **People**, and **Favorites**.
+- You can **add shows to your favorites** and view detailed information by tapping on a show.
+- The **Show Detail** screen displays additional info, including a list of episodes. Tapping on an episode opens the **Episode Detail** screen.
+- In the **People** tab, you can tap on a person to view more detailed information.
+- The **Favorites** tab displays all your favorited shows, and you can follow the same navigation flow as in the Shows tab.
+- You can use **Face ID** or **Touch ID** to enter to the app as well.
+
+## 4. To Be Implemented
 
 - Caching for people data.
 - Image caching to replace `AsyncImage` and store images locally.
