@@ -27,7 +27,7 @@ extension ManagedShow {
             return cachedData
         }
 
-        if let league = try getFirst(with: url, in: context), let imageData = league.data {
+        if let show = try getFirst(with: url, in: context), let imageData = show.data {
             URLImageCache.shared.setImageData(imageData, for: url)
             return imageData
         }
